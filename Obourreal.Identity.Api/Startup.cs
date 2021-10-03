@@ -33,7 +33,11 @@ namespace Obourreal.Identity.Api
             
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.Authority = domain;
