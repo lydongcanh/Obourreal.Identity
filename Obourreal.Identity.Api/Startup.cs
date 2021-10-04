@@ -72,6 +72,7 @@ namespace Obourreal.Identity.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("OpenCorsPolicy");
             app.UseHttpsRedirection();
 
             app.UseRouting();
