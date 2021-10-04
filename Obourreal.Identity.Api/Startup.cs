@@ -29,26 +29,32 @@ namespace Obourreal.Identity.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => 
+                options.AddPolicy("OpenCorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                }));
+            
             services.AddControllers();
             
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
-            services
-                .AddAuthentication(options =>
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = domain;
+                options.Audience = Configuration["Auth0:Audience"];
+                // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`.
+                // Map it to a different claim by setting the NameClaimType below.
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = domain;
-                    options.Audience = Configuration["Auth0:Audience"];
-                    // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`.
-                    // Map it to a different claim by setting the NameClaimType below.
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        NameClaimType = ClaimTypes.NameIdentifier
-                    };
-                });
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            });
             
             services.AddAuthorization(options =>
             {
