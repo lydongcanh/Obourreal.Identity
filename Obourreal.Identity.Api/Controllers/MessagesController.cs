@@ -28,12 +28,12 @@ namespace Obourreal.Identity.Api.Controllers
         }
 
         [HttpGet("private-scoped")]
-        [Authorize("read:messages")]
+        [Authorize("read:users")]
         public IActionResult Scoped()
         {
             return Ok(new
             {
-                Message = "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
+                Message = "Hello from a private endpoint! You need to be authenticated and have a scope of read:users to see this."
             });
         }
 
