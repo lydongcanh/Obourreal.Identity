@@ -27,6 +27,7 @@ namespace Obourreal.Identity.Api
                            .AllowAnyHeader();
                 }));
             
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
             services.AddAuth0(Configuration);
             services.AddSwagger();
