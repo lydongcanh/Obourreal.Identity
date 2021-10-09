@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Obourreal.Identity.Api
+namespace Obourreal.Identity.Api.ServiceConfiguration.Authorization
 {
     public class HasScopeRequirement : IAuthorizationRequirement
     {

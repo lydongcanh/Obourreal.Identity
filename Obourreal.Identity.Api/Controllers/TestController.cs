@@ -6,7 +6,7 @@ namespace Obourreal.Identity.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessagesController : ControllerBase
+    public class TestController : ControllerBase
     {
         [HttpGet("public")]
         public IActionResult Public()
@@ -28,12 +28,13 @@ namespace Obourreal.Identity.Api.Controllers
         }
 
         [HttpGet("private-scoped")]
-        [Authorize("read:users")]
+        // [Authorize("read:users")]
+        [Authorize("admin")]
         public IActionResult Scoped()
         {
             return Ok(new
             {
-                Message = "Hello from a private endpoint! You need to be authenticated and have a scope of read:users to see this."
+                Message = "Hello from a private endpoint! You need to be authenticated and have a role of admin to see this."
             });
         }
 
