@@ -29,6 +29,7 @@ namespace Obourreal.Identity.Api
             
             services.AddControllers();
             services.AddAuth0(Configuration);
+            services.AddSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +47,8 @@ namespace Obourreal.Identity.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwaggerGen();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
