@@ -23,23 +23,19 @@ namespace Obourreal.Identity.Api.ServiceConfiguration
                 options.Authority = domain;
                 options.Audience = configuration["Auth0:Audience"];
                 
-                // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`.
-                // Map it to a different claim by setting the NameClaimType below.
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = ClaimTypes.NameIdentifier
+                    NameClaimType = "Roles",
+                    RoleClaimType = configuration["Auth0:RoleClaimType"]
                 };
             });
             
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("read:users", policy => policy.Requirements.Add(new HasScopeRequirement("read:users", domain)));
-                
-                options.AddPolicy("admin", policy => policy.Requirements.Add(new HasRoleRequirement(Role.Admin)));
-                options.AddPolicy("user", policy => policy.Requirements.Add(new HasRoleRequirement(Role.User)));
             });
             
-            services.AddSingleton<IAuthorizationHandler, HasRoleHandler>();
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             return services;
         }

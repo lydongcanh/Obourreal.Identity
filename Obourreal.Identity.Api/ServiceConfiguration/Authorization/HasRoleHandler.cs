@@ -17,7 +17,6 @@ namespace Obourreal.Identity.Api.ServiceConfiguration.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasRoleRequirement requirement)
         {
             var roleClaimType = Configuration["Auth0:RoleClaimType"];
-            var claims = context.User.Claims;
             if (!context.User.HasClaim(c => c.Type == roleClaimType))
             {
                 return Task.CompletedTask;

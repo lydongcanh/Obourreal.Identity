@@ -18,7 +18,8 @@ namespace Obourreal.Identity.Api.Controllers
         }
 
         [HttpGet("private")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         public IActionResult Private()
         {
             return Ok(new
@@ -28,8 +29,7 @@ namespace Obourreal.Identity.Api.Controllers
         }
 
         [HttpGet("private-scoped")]
-        // [Authorize("read:users")]
-        [Authorize("admin")]
+        [Authorize(Roles = "admin, user", Policy = "read:users")]
         public IActionResult Scoped()
         {
             return Ok(new

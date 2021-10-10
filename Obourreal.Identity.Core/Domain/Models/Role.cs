@@ -1,8 +1,14 @@
+using System;
+using System.ComponentModel;
+
 namespace Obourreal.Identity.Core.Domain.Models
 {
+    [Flags]
     public enum Role
     {
-        Admin,
-        User
+        [Description("admin")]
+        Admin = 1,
+        [Description("user")]
+        User = 2
     }
 }
